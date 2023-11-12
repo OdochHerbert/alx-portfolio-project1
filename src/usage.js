@@ -5,7 +5,7 @@ const Usage = () => {
     const [outputText, setOutputText] = useState('');
 
     const fetchDataAndUpdateArrays = () => {
-        fetch('https://18.235.255.214:5007/get_network_data')
+        fetch('https://18.235.255.214/get_network_data')
             .then(response => response.json())
             .then(data => {
                 console.log(data); // Log the retrieved data
