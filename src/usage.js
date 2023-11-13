@@ -8,6 +8,7 @@ function Usage() {
     const [rxData, setRxData] = useState([0]);
     const [timeData, setTimeData] = useState([0]);
     const [fetching, setFetching] = useState(false);
+    
 
     const fetchDataAndUpdateArrays = () => {
         fetch('https://18.235.255.214/get_network_data')
@@ -65,7 +66,7 @@ function Usage() {
             clearInterval(interval);
             startFetching();
         } else {
-            clearInterval(interval); // clear interval if not fetching
+            clearInterval(interval)
         }
     
         return () => clearInterval(interval); // clear interval on component unmount
@@ -78,8 +79,7 @@ function Usage() {
 
     const handleStopFetching = () => {
         setFetching(false);
-        // Reload the page
-        window.location.reload();
+        console.log(fetching)
     };
 
     return (
@@ -97,8 +97,8 @@ function Usage() {
                 </tbody>
             </table>
             <div>
-                <button onClick={handleStartFetching}>Start Fetching</button>
-                <button onClick={handleStopFetching}>Stop Fetching</button>
+                <button className='button1' onClick={handleStartFetching}>Start Fetching</button>
+                <button className='button1' onClick={handleStopFetching}>Stop Fetching</button>
             </div>
             <Plot
                 data={[

@@ -1,89 +1,107 @@
-import React from 'react'
-import { Link} from 'react-router-dom'
-import {BsArrowRight} from 'react-icons/bs'
-import './home.css'
-import {RiCustomerService2Fill} from 'react-icons/ri'
-import {GiWallet} from 'react-icons/gi'
-import {BsPersonFillCheck} from 'react-icons/bs'
-import {LuNetwork} from 'react-icons/lu'
-import {AiFillFolderOpen} from 'react-icons/ai'
-import {BsWifi} from 'react-icons/bs'
-const SpeedTest = () =>{
-    return (
-        <>
-        <div className='top-banner'>
-            <div className='container'>
-                <div className='detail'>
-                <h2> Taking a closer look at your Network, but from anywhere</h2>
-                
-                <Link className='link' to='/product'> Check Now <BsArrowRight/> </Link>
-                
-                </div>
-                <div className='img_box'>
-                    <img src='./img/research.png' height='500px' width='500px' alt='sliderimg'></img>
-                </div>
+import React, { useState, useEffect } from 'react';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+function SpeedTest() {
+  const [fetchDataOnClick, setFetchDataOnClick] = useState(false);
+  const [networkData, setNetworkData] = useState([]);
+  const [outputText, setOutputText] = useState('');
+  const [loading, setLoading] = useState(false);
+  let piedata = [];
+
+  const parseSpeedTestData = (data) => {
+    console.log('Parsing data:', data);
+
+    const dataArray = [];
+    const rows = data.split('\n');
+
+    for (let i = 0; i < rows.length; i++) {
+      if (rows[i].includes('Download:') || rows[i].includes('Upload:')) {
+        const parts = rows[i].split(':');
+        const metric = parts[0].trim();
+        const value = parseFloat(parts[1].trim().split(' ')[0]);
+        dataArray.push({ metric, value });
+      }
+    }
+    console.log('Parsed data:', dataArray);
+    return dataArray;
+  };
+
+  useEffect(() => {
+    const fetchData = () => {
+      setLoading(true); // Set loading to true before making the fetch request
+      fetch('https://18.235.255.214/speed_test')
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Raw data:', data);
+
+          setOutputText(data.output);
+          let data1 = parseSpeedTestData(data);
+          setNetworkData(data1);
+        })
+        .catch((error) => console.error('Error:', error))
+        .finally(() => {
+          setLoading(false); // Set loading to false when the fetch request is complete
+        });
+    };
+
+    if (fetchDataOnClick) {
+      fetchData();
+      setFetchDataOnClick(false);
+    }
+  }, [fetchDataOnClick]);
+
+  const handleClick = () => {
+    setFetchDataOnClick(true);
+  };
+
+  if (networkData.length > 0) {
+    piedata = [networkData[0].value, networkData[1].value];
+    console.log(piedata);
+  }
+
+  const data = {
+    labels: ['Download', 'Upload'],
+    datasets: [
+      {
+        label: '# of Votes',
+        data: piedata,
+        backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+        borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    aspectRatio: 1.5,
+    maintainAspectRatio: true,
+    responsive: true,
+  };
+
+  return (
+    <div>
+      <div>
+        <button className='button1' onClick={handleClick} disabled={loading}>
+          Test
+        </button>
+        {loading && <div className='loader'> </div>}
+        <h1>Speed Test Data Display:</h1>
+        {networkData.length > 0 &&
+          networkData.map((entry, index) => (
+            <div key={index}>
+              <strong>{entry.metric}:</strong> {entry.value}
             </div>
-        </div>
-        <div className='product_type'>
-            <div className='container'>
-                <div className='box'>
-                    <div className='img_box'>
-                        <img src='./img/software_development.png' height='200px' width='150px' alt='Software Development'></img>
-                    </div>
-                    <div className='detail'>
-                        <p><strong>Network Analysis </strong><LuNetwork/></p>
-                    </div>
-                </div>
-                <div className='box'>
-                    <div className='img_box'>
-                        <img src='./img/data_analysis.png' height='200px' width='150px' alt='Software Development'></img>
-                    </div>
-                    <div className='detail'>
-                        <p><strong>File System</strong><AiFillFolderOpen/></p>
-                    </div>
-                </div>
-                <div className='box'>
-                    <div className='img_box'>
-                        <img src='./img/network_consults.png' height='200px' width='150px' alt='Software Development'></img>
-                    </div>
-                    <div className='detail'>
-                        <p> <strong>Wifi Management: </strong><BsWifi/></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div className='about'>
-            <div className='container'>
-            <div className='box'>
-                    <div className='icon'>
-                        <GiWallet/>
-                    </div>
-                    <div className='detail'>
-                        <h3>Hyper-Elastic-Prices</h3>
-                        <p>You're wallet will handle :)</p>
-                    </div>
-                </div>
-                <div className='box'>
-                    <div className='icon'>
-                        <RiCustomerService2Fill/>
-                    </div>
-                    <div className='detail'>
-                        <h3>Hyper-Client-Support</h3>
-                        <p>Call +256-770-548525/+256-751-375-366 </p>
-                    </div>
-                </div>
-                <div className='box'>
-                    <div className='icon'>
-                        <BsPersonFillCheck/>
-                    </div>
-                    <div className='detail'>
-                        <h3>Hyper-Proffesionals</h3>
-                        <p>Been there, Done it, What next?</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </>
-    )
+          ))}
+      </div>
+      <div className='piechart'>
+        <Doughnut data={data} options={options} />
+      </div>
+      <pre>{outputText}</pre>
+    </div>
+  );
 }
-export default SpeedTest
+
+export default SpeedTest;
