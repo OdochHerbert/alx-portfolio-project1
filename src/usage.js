@@ -1,26 +1,39 @@
 import React, { useState, useEffect } from 'react';
+import Plot from 'react-plotly.js';
 
-const Usage = () => {
+function Usage() {
     const [networkData, setNetworkData] = useState({});
     const [outputText, setOutputText] = useState('');
+    const [txData, setTxData] = useState([0]);
+    const [rxData, setRxData] = useState([0]);
+    const [timeData, setTimeData] = useState([0]);
+    const [fetching, setFetching] = useState(false);
 
     const fetchDataAndUpdateArrays = () => {
         fetch('https://18.235.255.214/get_network_data')
             .then(response => response.json())
             .then(data => {
-                console.log(data); // Log the retrieved data
+                console.log('Raw data:', data);
 
-                // Set the output text
                 setOutputText(data.output);
 
-                // Parse the output text and extract relevant data
                 const parsedData = parseOutputText(data.output);
                 setNetworkData(parsedData);
+
+                // Update state variables for plot data
+                setTxData(prevTxData => [...prevTxData, data.tx]);
+                setRxData(prevRxData => [...prevRxData, data.rx]);
+                setTimeData(prevTimeData => [...prevTimeData, prevTimeData[prevTimeData.length - 1] + 10]);
+
+                // Log TX, RX, and Time arrays
+                console.log('TX Array:', txData);
+                console.log('RX Array:', rxData);
+                console.log('Time Array:', timeData);
             })
             .catch(error => console.error('Error:', error));
     };
 
-    const parseOutputText = (output) => {
+    const parseOutputText = output => {
         const rows = output.split('\n');
         const data = {};
         for (let i = 0; i < rows.length; i++) {
@@ -33,28 +46,49 @@ const Usage = () => {
             } else if (rows[i].trim().startsWith('Total send and receive rate')) {
                 data['Total send and receive rate'] = rows[i].trim();
             }
-            // Add more conditions to parse other relevant data as needed
         }
         return data;
     };
 
     useEffect(() => {
-        // Fetch data immediately and update the arrays
-        fetchDataAndUpdateArrays();
-
-        // Fetch data and update the arrays every 13 seconds
-        const interval = setInterval(() => {
+        let interval;
+    
+        const startFetching = () => {
             fetchDataAndUpdateArrays();
-        }, 13000);
+            interval = setInterval(() => {
+                fetchDataAndUpdateArrays();
+            }, 5000);
+        };
+    
+        if (fetching) {
+            // Clear the previous interval before starting a new one
+            clearInterval(interval);
+            startFetching();
+        } else {
+            clearInterval(interval); // clear interval if not fetching
+        }
+    
+        return () => clearInterval(interval); // clear interval on component unmount
+    }, [fetching]);
+    
 
-        return () => clearInterval(interval);
-    }, []);
+    const handleStartFetching = () => {
+        setFetching(true);
+    };
 
-    const renderTable = (data) => {
-        return (
+    const handleStopFetching = () => {
+        setFetching(false);
+        // Reload the page
+        window.location.reload();
+    };
+
+    return (
+        <div>
+            <h1>Data retrieved from Flask backend:</h1>
+            <div id="output"></div>
             <table>
                 <tbody>
-                    {Object.entries(data).map(([key, value]) => (
+                    {Object.entries(networkData).map(([key, value]) => (
                         <tr key={key}>
                             <td>{key}</td>
                             <td>{value}</td>
@@ -62,16 +96,33 @@ const Usage = () => {
                     ))}
                 </tbody>
             </table>
-        );
-    };
-
-    return (
-        <div>
-            <h1>Data retrieved from Flask backend:</h1>
-            <div id="output"></div>
-            {renderTable(networkData)}
+            <div>
+                <button onClick={handleStartFetching}>Start Fetching</button>
+                <button onClick={handleStopFetching}>Stop Fetching</button>
+            </div>
+            <Plot
+                data={[
+                    {
+                        x: timeData,
+                        y: txData,
+                        type: 'scatter',
+                        mode: 'lines+markers',
+                        marker: { color: 'red' },
+                        name: 'Tx',
+                    },
+                    {
+                        x: timeData,
+                        y: rxData,
+                        type: 'scatter',
+                        mode: 'lines+markers',
+                        marker: { color: 'blue' },
+                        name: 'Rx',
+                    },
+                ]}
+                layout={{ width: 800, height: 400, title: 'Bandwidth Usage on eth0', yaxis:{title: 'Tx and Rx in kb/s'}, xaxis:{title:'Time in seconds'}, }}
+            />
         </div>
     );
-};
+}
 
 export default Usage;
