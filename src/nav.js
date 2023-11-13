@@ -85,7 +85,7 @@ const Nav = () => {
             <Link to='/linked_devices'className='link'>Linked Devices</Link>
           </li>
           <li>
-            <Link to='/wireless_security'className='link'>Wifi Security</Link>
+            <Link to='/net_interfaces'className='link'>Network Interfaces</Link>
           </li>
           <li>
             <Link to='/speed_test'className='link'>Speed Test</Link>

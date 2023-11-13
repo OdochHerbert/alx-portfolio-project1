@@ -4,6 +4,7 @@ import Home from './home'
 import SpeedTest from './speed'
 import Usage from './usage'
 import LinkedDevices from './linked_devices'
+import NetworkInterfaces from './net_int'
 const Rout = () => {
     return (
         <>
@@ -12,6 +13,7 @@ const Rout = () => {
         <Route path='/speed_test' element ={<SpeedTest/>}/>
         <Route path='/live_usage' element ={<Usage/>}/>
         <Route path='/linked_devices' element ={<LinkedDevices/>}/>
+        <Route path='/net_interfaces' element ={<NetworkInterfaces/>}/>
 
         </Routes>
        

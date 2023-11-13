@@ -164,6 +164,19 @@ width: 500px;
     animation: spin 1s linear infinite;
     margin: 10px auto;
   }
+  /* styles.css */
+
+.container1 {
+    max-width: 800px; /* Adjust the maximum width as needed */
+    margin: 0 auto; /* Center the container horizontally */
+    padding: 20px;
+}
+
+.responsive-table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow-x: auto; /* Enable horizontal scrolling for small screens */
+}
   
   @keyframes spin {
     0% { transform: rotate(0deg); }
