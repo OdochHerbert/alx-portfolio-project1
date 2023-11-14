@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import Plot from 'react-plotly.js';
 
 function Usage() {
-    const [networkData, setNetworkData] = useState({});
-    const [outputText, setOutputText] = useState('');
-    const [txData, setTxData] = useState([0]);
-    const [rxData, setRxData] = useState([0]);
-    const [timeData, setTimeData] = useState([0]);
-    const [fetching, setFetching] = useState(false);
-    
+    const initialState = {
+        networkData: {},
+        outputText: '',
+        txData: [0],
+        rxData: [0],
+        timeData: [0],
+        fetching: false,
+    };
+
+    const [state, setState] = useState(initialState);
 
     const fetchDataAndUpdateArrays = () => {
         fetch('https://18.235.255.214/get_network_data')
@@ -16,20 +19,19 @@ function Usage() {
             .then(data => {
                 console.log('Raw data:', data);
 
-                setOutputText(data.output);
-
-                const parsedData = parseOutputText(data.output);
-                setNetworkData(parsedData);
-
-                // Update state variables for plot data
-                setTxData(prevTxData => [...prevTxData, data.tx]);
-                setRxData(prevRxData => [...prevRxData, data.rx]);
-                setTimeData(prevTimeData => [...prevTimeData, prevTimeData[prevTimeData.length - 1] + 10]);
+                setState(prevState => ({
+                    ...prevState,
+                    outputText: data.output,
+                    networkData: parseOutputText(data.output),
+                    txData: [...prevState.txData, data.tx],
+                    rxData: [...prevState.rxData, data.rx],
+                    timeData: [...prevState.timeData, prevState.timeData[prevState.timeData.length - 1] + 10],
+                }));
 
                 // Log TX, RX, and Time arrays
-                console.log('TX Array:', txData);
-                console.log('RX Array:', rxData);
-                console.log('Time Array:', timeData);
+                console.log('TX Array:', state.txData);
+                console.log('RX Array:', state.rxData);
+                console.log('Time Array:', state.timeData);
             })
             .catch(error => console.error('Error:', error));
     };
@@ -53,33 +55,35 @@ function Usage() {
 
     useEffect(() => {
         let interval;
-    
+
         const startFetching = () => {
             fetchDataAndUpdateArrays();
             interval = setInterval(() => {
                 fetchDataAndUpdateArrays();
             }, 5000);
         };
-    
-        if (fetching) {
+
+        if (state.fetching) {
             // Clear the previous interval before starting a new one
             clearInterval(interval);
             startFetching();
         } else {
-            clearInterval(interval)
+            // If fetching is stopped, clear the state arrays
+            setState(initialState);
+            clearInterval(interval);
         }
-    
+
         return () => clearInterval(interval); // clear interval on component unmount
-    }, [fetching]);
-    
+    }, [state.fetching]);
 
     const handleStartFetching = () => {
-        setFetching(true);
+        setState(prevState => ({ ...prevState, fetching: true }));
     };
 
     const handleStopFetching = () => {
-        setFetching(false);
-        console.log(fetching)
+        setState(initialState);
+        //clearInterval();
+        console.log(state.fetching);
     };
 
     return (
@@ -88,7 +92,7 @@ function Usage() {
             <div id="output"></div>
             <table>
                 <tbody>
-                    {Object.entries(networkData).map(([key, value]) => (
+                    {Object.entries(state.networkData).map(([key, value]) => (
                         <tr key={key}>
                             <td>{key}</td>
                             <td>{value}</td>
@@ -103,16 +107,16 @@ function Usage() {
             <Plot
                 data={[
                     {
-                        x: timeData,
-                        y: txData,
+                        x: state.timeData,
+                        y: state.txData,
                         type: 'scatter',
                         mode: 'lines+markers',
                         marker: { color: 'red' },
                         name: 'Tx',
                     },
                     {
-                        x: timeData,
-                        y: rxData,
+                        x: state.timeData,
+                        y: state.rxData,
                         type: 'scatter',
                         mode: 'lines+markers',
                         marker: { color: 'blue' },

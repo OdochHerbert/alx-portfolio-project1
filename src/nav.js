@@ -90,6 +90,9 @@ const Nav = () => {
           <li>
             <Link to='/speed_test'className='link'>Speed Test</Link>
           </li>
+          <li>
+            <Link to='/net_statistics'className='link'>NetStat</Link>
+          </li>
         </ul>
         </div>
         <div className='auth'>

@@ -177,6 +177,13 @@ width: 500px;
     border-collapse: collapse;
     overflow-x: auto; /* Enable horizontal scrolling for small screens */
 }
+.category {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  .stat {
+    margin-left: 20px;
+  }
   
   @keyframes spin {
     0% { transform: rotate(0deg); }
