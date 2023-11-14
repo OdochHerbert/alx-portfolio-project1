@@ -9,7 +9,8 @@
 {
     padding: 10px 30px;
     width: 100%;
-    background: #010f1c;
+    background: #2b0d42;
+    opacity: 0.9;
     display: flex;
 }
 .free .icon
