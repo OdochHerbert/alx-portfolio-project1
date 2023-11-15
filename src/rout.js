@@ -6,6 +6,8 @@ import Usage from './usage'
 import LinkedDevices from './linked_devices'
 import NetworkInterfaces from './net_int'
 import NetworkStatistics from './net_stat'
+import ContactForm from './contact'
+import AboutPage from './about'
 const Rout = () => {
     return (
         <>
@@ -16,6 +18,8 @@ const Rout = () => {
         <Route path='/linked_devices' element ={<LinkedDevices/>}/>
         <Route path='/net_interfaces' element ={<NetworkInterfaces/>}/>
         <Route path='/net_statistics' element = {<NetworkStatistics/>}/>
+        <Route path='/contact' element = {<ContactForm/>}/>
+        <Route path='/about' element = {<AboutPage/>}/>
 
         </Routes>
        

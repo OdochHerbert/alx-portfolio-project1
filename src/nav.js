@@ -40,7 +40,8 @@ const Nav = () => {
       
 
     </div>
-    <div className=''>
+    {!isAuthenticated && (
+      <div className=''>
       <div className=''>
       <header className="text-center text-white masthead navimage" >
         <div className="overlay"></div>
@@ -66,6 +67,8 @@ const Nav = () => {
 
          </div>
       </div>
+    )}
+    
     
     {
             isAuthenticated && 
@@ -106,16 +109,16 @@ const Nav = () => {
             </div>
             )
           }
-          <div className="col-lg-6 text-center text-lg-start my-auto h-100">
+         
           
         {
           !isAuthenticated &&(
-            <ul className='list-inline mb-2'>
+            <div className='header'>
+              <div className='container'>
+              <div className="col-lg-6 text-center text-lg-start my-auto h-100 nav">
+              <ul className='list-inline mb-2'>
           <li className="list-inline-item">
             <Link to='/'className='link'>Home</Link>
-          </li>
-          <li className="list-inline-item">
-            <Link to='/product' className='link'>Product</Link>
           </li>
           <li className='list-inline-item'>
             <Link to='/about'className='link'>About</Link>
@@ -124,14 +127,18 @@ const Nav = () => {
             <Link to='/contact'className='link'>Contact</Link>
           </li>
         </ul>
+              </div>
+              
+            </div>
+            </div>
+            
           )
             
 
           
         }
-      <Link to='/speed_test'className='link'>Speed Test <SiSpeedtest/> </Link>
-      <Link to='/live_usage' className='link'>Utilization</Link>
-        </div>
+     
+      
         
               
     </>
