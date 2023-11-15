@@ -82,7 +82,7 @@ function SpeedTest() {
   };
 
   return (
-    <div>
+    <div className='container'> 
       <div>
         <button className='button1' onClick={handleClick} disabled={loading}>
           Test

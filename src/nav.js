@@ -13,28 +13,48 @@ const Nav = () => {
   const { loginWithRedirect, logout, user, isAuthenticated} = useAuth0();
   return(
     <>
-    <div className='free'>
-        <div className='icon'><DiLinux/></div>
-        <p>HYSU</p>
-        
-        <div className='my_container'>
-        <div className='nav'>
-        <ul className='my_container'>
-          <li>
+    <div className='navbar navbar-light navbar-expand bg-dark navigation-clean free'>
+
+    <div className="container"><a className="navbar-brand" href="#"> 
+    <div className='icon'><DiLinux/></div>
+    <strong>HYSU</strong></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"></button>
+            <div className="collapse navbar-collapse" id="navcol-1">
+            <div className='auth ms-auto'>
+          {
+            isAuthenticated ?
+          
+          <a className="btn btn-primary ms-auto" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} role="button" href="#">Sign Out</a>
+          
+          :
+           <a className="btn btn-primary ms-auto" onClick={()=> loginWithRedirect()} role="button" href="#">Sign In</a>
+
+
+
+          }
+          
+          
+        </div>
+        <div className="col-lg-6 text-center text-lg-start my-auto h-100">
+          <ul className='list-inline mb-2'>
+          <li className="list-inline-item">
             <Link to='/'className='link'>Home</Link>
           </li>
-          <li>
+          <li className="list-inline-item">
             <Link to='/product' className='link'>Product</Link>
           </li>
-          <li>
+          <li className='list-inline-item'>
             <Link to='/about'className='link'>About</Link>
           </li>
-          <li>
+          <li className="list-inline-item">
             <Link to='/contact'className='link'>Contact</Link>
           </li>
         </ul>
+      
         </div>
+              
+              </div>
         </div>
+      
 
     </div>
     <div className='main_header'>
@@ -73,24 +93,24 @@ const Nav = () => {
     </div>
     <div className='header'>
       <div className='container'>
-        <div className='nav'>
-        <ul>
-          <li>
+        <div className='col-lg-6 text-center text-lg-start my-auto h-100 nav'>
+        <ul className='list-inline mb-2'>
+          <li className='list-inline-item'>
             <Link to='/'className='link'>Home</Link>
           </li>
           <li>
           <Link to='/live_usage' className='link'>Live Usage <br/> <SiSpeedtest/> </Link>
           </li>
-          <li>
+          <li className='list-inline-item'>
             <Link to='/linked_devices'className='link'>Linked Devices</Link>
           </li>
-          <li>
+          <li className='list-inline-item'>
             <Link to='/net_interfaces'className='link'>Network Interfaces</Link>
           </li>
-          <li>
+          <li className='list-inline-item'>
             <Link to='/speed_test'className='link'>Speed Test</Link>
           </li>
-          <li>
+          <li className='list-inline-item'>
             <Link to='/net_statistics'className='link'>NetStat</Link>
           </li>
         </ul>

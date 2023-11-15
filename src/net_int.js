@@ -57,12 +57,14 @@ const NetworkInterfaces = () => {
         console.log(arrays);
 
         setTableData(arrays);
-    }, [inputData]);
+    }, []);
 
     return (
-        <div className='container1'>
+        <div className='row'>
+            <div className='col-md-6 col-lg-9'>
+            <div className='table-responsive'>
             {tableData.length > 0 && (
-                <table className='responsive-table' style={{ borderCollapse: 'collapse', width: '100%' }}>
+                <table className='table table-condensed'>
                     <thead>
                         <tr>
                             {tableData[0].map((header, index) => (
@@ -86,6 +88,12 @@ const NetworkInterfaces = () => {
                 </table>
             )}
         </div>
+            </div>
+            <div className='col-md-6'>
+                <h3 className='ubuntu '>Routing Table goes here</h3>
+            </div>
+        </div>
+        
     );
 };
 

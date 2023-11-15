@@ -102,10 +102,13 @@
     display: flex;
     max-width: 100%;
     justify-content: space-between;
+    
 }
 .header .container .nav ul
 {
     display: flex;
+    width: 100%;
+    overflow-x: auto;
 }
 .header .container .nav ul li
 {
