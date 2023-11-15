@@ -194,15 +194,15 @@ width: 500px;
   }
   .showing
   {
-    background: black;
+    background-image: url('../public/img/network_monitoring.png');
   }
   .showing1
   {
-    background: blue;
+    background-image: url('../public/img/file_managing.png');
   }
   .showing2
   {
-    background: red
+  background-image: url('../public/img/os_compatibility.png');
   }
   *
   {

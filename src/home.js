@@ -70,19 +70,19 @@ const Home = () =>{
             <h2 className="mb-5">What people are saying...</h2>
             <div className="row">
                 <div className="col-lg-4">
-                    <div className="mx-auto testimonial-item mb-5 mb-lg-0"><img className="rounded-circle img-fluid mb-3" src="img/testimonials-1.jpg"/>
+                    <div className="mx-auto testimonial-item mb-5 mb-lg-0"><img className="rounded-circle img-fluid mb-3" src="img/florence_pugh.webp"/>
                         <h5>Florence Pugh.</h5>
                         <p className="font-weight-light mb-0">"This is fantastic! Thanks so much guys!"</p>
                     </div>
                 </div>
                 <div className="col-lg-4">
-                    <div className="mx-auto testimonial-item mb-5 mb-lg-0"><img className="rounded-circle img-fluid mb-3" src="img/testimonials-2.jpg"/>
+                    <div className="mx-auto testimonial-item mb-5 mb-lg-0"><img className="rounded-circle img-fluid mb-3" src="img/peaky.png"/>
                         <h5>Cillian Murphy.</h5>
                         <p className="font-weight-light mb-0">"Just like the Peaky ******* Blinders, I sudo my way through the network like it is Birmingham City "</p>
                     </div>
                 </div>
                 <div className="col-lg-4">
-                    <div className="mx-auto testimonial-item mb-5 mb-lg-0"><img className="rounded-circle img-fluid mb-3" src="img/testimonials-3.jpg"/>
+                    <div className="mx-auto testimonial-item mb-5 mb-lg-0"><img className="rounded-circle img-fluid mb-3" src="img/oppenheimer.jpg"/>
                         <h5>J Robert Oppenheimer.</h5>
                         <p className="font-weight-light mb-0">"How do star die! Hmmm, Ok, a star cools down and expands, this leads to increase in density which leads to increase in gravity, gravity becomes so massive that even light cant escape it. GUESS WHAT IT HAS BECOME"</p>
                     </div>
@@ -92,67 +92,7 @@ const Home = () =>{
     </section>
 
         </div>
-        <div className='product_type'>
-            <h1>REserve for about</h1>
-            <div className='container2'>
-                <div className='box'>
-                    <div className='img_box'>
-                        <img src='./img/software_development.png'  height='200px' width='150px' alt='Software Development'></img>
-                    </div>
-                    <div className='detail'>
-                        <p><strong>Network Analysis </strong><LuNetwork/></p>
-                    </div>
-                </div>
-                <div className='box'>
-                    <div className='img_box'>
-                        <img src='./img/data_analysis.png' height='200px' width='150px' alt='Software Development'></img>
-                    </div>
-                    <div className='detail'>
-                        <p><strong>File System</strong><AiFillFolderOpen/></p>
-                    </div>
-                </div>
-                <div className='box'>
-                    <div className='img_box'>
-                        <img src='./img/network_consults.png' height='200px' width='150px' alt='Software Development'></img>
-                    </div>
-                    <div className='detail'>
-                        <p> <strong>Wifi Management: </strong><BsWifi/></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div className='about'>
-            <h1>Reserve for About</h1>
-            <div className='container2 container'>
-            <div className='box'>
-                    <div className='icon container'>
-                        <GiWallet/>
-                    </div>
-                    <div className='detail container'>
-                        <h3>Hyper-Elastic-Prices</h3>
-                        <p>You're wallet will handle :)</p>
-                    </div>
-                </div>
-                <div className='box container'>
-                    <div className='icon'>
-                        <RiCustomerService2Fill/>
-                    </div>
-                    <div className='detail container'>
-                        <h3>Hyper-Client-Support</h3>
-                        <p>Call +256-770-548525/+256-751-375-366 </p>
-                    </div>
-                </div>
-                <div className='box container'>
-                    <div className='icon'>
-                        <BsPersonFillCheck/>
-                    </div>
-                    <div className='detail'>
-                        <h3>Hyper-Proffesionals</h3>
-                        <p>Been there, Done it, What next?</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+       
         </>
     )
 }

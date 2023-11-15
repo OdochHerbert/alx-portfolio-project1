@@ -34,24 +34,7 @@ const Nav = () => {
           
           
         </div>
-        <div className="col-lg-6 text-center text-lg-start my-auto h-100">
-          <ul className='list-inline mb-2'>
-          <li className="list-inline-item">
-            <Link to='/'className='link'>Home</Link>
-          </li>
-          <li className="list-inline-item">
-            <Link to='/product' className='link'>Product</Link>
-          </li>
-          <li className='list-inline-item'>
-            <Link to='/about'className='link'>About</Link>
-          </li>
-          <li className="list-inline-item">
-            <Link to='/contact'className='link'>Contact</Link>
-          </li>
-        </ul>
-      
-        </div>
-              
+        
               </div>
         </div>
       
@@ -91,7 +74,14 @@ const Nav = () => {
          </div>
       </div>
     </div>
-    <div className='header'>
+    {
+            isAuthenticated && 
+            (
+              <div className='account'>
+              <div className='user_icon'>
+                <AiOutlineUser/>
+              </div>
+              <div className='header'>
       <div className='container'>
         <div className='col-lg-6 text-center text-lg-start my-auto h-100 nav'>
         <ul className='list-inline mb-2'>
@@ -114,22 +104,33 @@ const Nav = () => {
             <Link to='/net_statistics'className='link'>NetStat</Link>
           </li>
         </ul>
+        
+        
         </div>
-        <div className='auth'>
-          {
-            isAuthenticated ?
-          <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}><CiLogout/> </button>
-
-          :
-          <button onClick={()=> loginWithRedirect()}> <CiLogin/> </button>
-
-
-          }
-          
-          
-        </div>
+        
       </div>
     </div>
+            </div>
+            )
+          }
+          <div className="col-lg-6 text-center text-lg-start my-auto h-100">
+          <ul className='list-inline mb-2'>
+          <li className="list-inline-item">
+            <Link to='/'className='link'>Home</Link>
+          </li>
+          <li className="list-inline-item">
+            <Link to='/product' className='link'>Product</Link>
+          </li>
+          <li className='list-inline-item'>
+            <Link to='/about'className='link'>About</Link>
+          </li>
+          <li className="list-inline-item">
+            <Link to='/contact'className='link'>Contact</Link>
+          </li>
+        </ul>
+      
+        </div>
+              
     </>
   )
 }
