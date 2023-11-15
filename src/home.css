@@ -208,5 +208,16 @@ width: 500px;
   {
     font-family: Ubuntu !important;
   }
+  .navimage
+  {
+    background: url('../public/img/blackhole.webp'), no-repeat, center;
+    background-size: cover;
+
+  }
+  .navheight
+  {
+    height: auto;
+  }
+  
   
   

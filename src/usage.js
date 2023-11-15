@@ -88,9 +88,11 @@ function Usage() {
 
     return (
         <div>
-            <h1>Data retrieved from Flask backend:</h1>
-            <div id="output"></div>
-            <table>
+            <h1>Live Bandwidth Utilization:</h1>
+            <div className='row'>
+                <div className='col-md-4'>
+                <div className='table-responsive' id="output">
+            <table className='table'>
                 <tbody>
                     {Object.entries(state.networkData).map(([key, value]) => (
                         <tr key={key}>
@@ -100,11 +102,15 @@ function Usage() {
                     ))}
                 </tbody>
             </table>
+            </div>
+           
             <div>
                 <button className='button1' onClick={handleStartFetching}>Start Fetching</button>
                 <button className='button1' onClick={handleStopFetching}>Stop Fetching</button>
             </div>
-            <Plot
+                </div>
+              <div className='col-md-8'>
+              <Plot
                 data={[
                     {
                         x: state.timeData,
@@ -125,6 +131,11 @@ function Usage() {
                 ]}
                 layout={{ width: 800, height: 400, title: 'Bandwidth Usage on eth0', yaxis:{title: 'Tx and Rx in kb/s'}, xaxis:{title:'Time in seconds'}, }}
             />
+
+              </div>
+            </div>
+            
+            
         </div>
     );
 }

@@ -1,100 +1,108 @@
 import React, { useEffect, useState } from 'react';
+import RoutingTable from './routing_table';
 
 const NetworkInterfaces = () => {
-    // Your input data
-    const inputData = {
-        "network_interfaces": "1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000\n link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00\n2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 9001 qdisc fq_codel state UP mode DEFAULT group default qlen 1000\n link/ether 06:01:af:75:32:77 brd ff:ff:ff:ff:ff:ff"
+  const [tableData, setTableData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://18.235.255.214/network/interfaces');
+        const jsonData = await response.json();
+        const newInputData = { "network_interfaces": jsonData.network_interfaces };
+
+        setTableData(parseAndFormatData(newInputData));
+        console.log(newInputData)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     };
 
-    const [tableData, setTableData] = useState([]);
+    fetchData(); // Fetch data immediately when the component mounts
 
-    useEffect(() => {
-        // Extract the network interfaces information
-        const networkInterfaces = inputData.network_interfaces;
+    // Fetch data every 10 seconds
+    const intervalId = setInterval(fetchData, 10000);
 
-        // Remove "network_interfaces": from the JSON
-        const cleanedData = networkInterfaces.replace('"network_interfaces": ', '');
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []); // Empty dependency array ensures that this effect runs once, similar to componentDidMount
 
-        // Add a combination of numbers and semicolons
-        const combination = '1;2;3;4;5';
+  const parseAndFormatData = (inputData) => {
+    const networkInterfaces = inputData.network_interfaces;
 
-        // Remove 'n:' where n is any number not preceded by any letter
-        let result = cleanedData.replace(/(?<![a-zA-Z])\d+:/g, '');
+    // Remove "network_interfaces": from the JSON
+    const cleanedData = networkInterfaces.replace('"network_interfaces": ', '');
 
-        // Place 'description ' before any '<'
-        result = result.replace(/</g, 'description <');
+    // Remove numbers followed by colon
+    let result = cleanedData.replace(/\d+:/g, '');
 
-        // Remove specified words
-        const wordsToRemove = ['description', 'mtu', 'qdisc', 'state', 'mode', 'group', 'qlen', 'link/loopback', 'brd'];
+    // Add a combination of numbers and semicolons
+    const combination = '1;2;3;4;5';
 
-        wordsToRemove.forEach(word => {
-            const regex = new RegExp(word, 'g');
-            result = result.replace(regex, '');
-        });
+    // Place 'description ' before any '<'
+    result = result.replace(/</g, 'description <');
 
-        // Log the final result to the console
-        console.log(result + combination);
+    // Remove specified words
+    const wordsToRemove = ['description', 'mtu', 'qdisc', 'state', 'mode', 'group', 'qlen', 'link/loopback', 'brd'];
 
-        // Remove '1;2;3;4;5'
-        const cleanedData2 = result.replace(/1;2;3;4;5\s*/, '');
+    wordsToRemove.forEach(word => {
+      const regex = new RegExp(word, 'g');
+      result = result.replace(regex, '');
+    });
 
-        // Combine last two fields with ':'
-        const combinedData = cleanedData2.replace(/(\S+)\s+(\S+)$/, '$1:$2');
+    // Remove the combination of numbers and semicolons
+    const cleanedData2 = result.replace(/1;2;3;4;5\s*/, '');
 
-        // Split the cleaned data into an array of fields
-        const fields = combinedData.split(/\s+/).filter(Boolean);
+    // Combine last two fields with ':'
+    const combinedData = cleanedData2.replace(/(\S+)\s+(\S+)$/, '$1:$2');
 
-        // Create an array after every 10 fields
-        const arrays = [];
-        for (let i = 0; i < fields.length; i += 10) {
-            arrays.push(fields.slice(i, i + 10));
-        }
+    // Split the cleaned data into an array of fields
+    const fields = combinedData.split(/\s+/).filter(Boolean);
 
-        const title = ['interface', 'description', 'mtu', 'qdisc', 'state', 'mode', 'group', 'qlen', 'link/loopback', 'brd'];
-        arrays.unshift(title);
+    // Create an array after every 10 fields
+    const arrays = [];
+    for (let i = 0; i < fields.length; i += 10) {
+      arrays.push(fields.slice(i, i + 10));
+    }
 
-        // Log the arrays to the console
-        console.log(arrays);
+    const title = ['interface', 'description', 'mtu', 'qdisc', 'state', 'mode', 'group', 'qlen', 'link/loopback', 'brd'];
+    arrays.unshift(title);
 
-        setTableData(arrays);
-    }, []);
+    return arrays;
+  };
 
-    return (
-        <div className='row'>
-            <div className='col-md-6 col-lg-9'>
-            <div className='table-responsive'>
-            {tableData.length > 0 && (
-                <table className='table table-condensed'>
-                    <thead>
-                        <tr>
-                            {tableData[0].map((header, index) => (
-                                <th key={index} style={{ border: '1px solid black', padding: '8px', textAlign: 'left' }}>
-                                    {header}
-                                </th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {tableData.slice(1).map((row, rowIndex) => (
-                            <tr key={rowIndex}>
-                                {row.map((cell, cellIndex) => (
-                                    <td key={cellIndex} style={{ border: '1px solid black', padding: '8px', textAlign: 'left' }}>
-                                        {cell}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            )}
+  return (
+    <div className='row'>
+      <div className='col-md-6'>
+        <h3>Interface Stats</h3>
+        <div className='table-responsive'>
+          {tableData.length > 0 && (
+            <table className='table'>
+              <thead>
+                <tr>
+                  {tableData[0].map((header, index) => (
+                    <th key={index}>{header}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {tableData.slice(1).map((row, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {row.map((cell, cellIndex) => (
+                      <td key={cellIndex}>{cell}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
-            </div>
-            <div className='col-md-6'>
-                <h3 className='ubuntu '>Routing Table goes here</h3>
-            </div>
-        </div>
-        
-    );
+      </div>
+      <div className='col-md-6'>
+        <RoutingTable />
+      </div>
+    </div>
+  );
 };
 
 export default NetworkInterfaces;

@@ -84,7 +84,7 @@ const Home = () =>{
                 <div className="col-lg-4">
                     <div className="mx-auto testimonial-item mb-5 mb-lg-0"><img className="rounded-circle img-fluid mb-3" src="img/oppenheimer.jpg"/>
                         <h5>J Robert Oppenheimer.</h5>
-                        <p className="font-weight-light mb-0">"How do star die! Hmmm, Ok, a star cools down and expands, this leads to increase in density which leads to increase in gravity, gravity becomes so massive that even light cant escape it. GUESS WHAT IT HAS BECOME"</p>
+                        <p className="font-weight-light mb-0">"How do stars die! Hmmm, Ok, a star cools down and expands, this leads to increase in density which leads to increase in gravity, gravity becomes so massive that even light cant escape it. GUESS WHAT IT HAS BECOME"</p>
                     </div>
                 </div>
             </div>

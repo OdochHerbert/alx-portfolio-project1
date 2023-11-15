@@ -40,40 +40,33 @@ const Nav = () => {
       
 
     </div>
-    <div className='main_header'>
-      <div className='container'>
-         <div className='logo'>
-          <img src='./img/logo.jpeg' width='100px' alt='hearth_solutions'></img>
-
-         </div>
-         <div>
-           <h1><DiLinux/>HYSU</h1>
-         </div>
-         <div className='icon'>
-          {
-            isAuthenticated && 
-            (
-              <div className='account'>
-              <div className='user_icon'>
-                <AiOutlineUser/>
-              </div>
-              <p>Hello, {user.name}</p>
+    <div className='navheight'>
+      <div className=''>
+      <header className="text-center text-white masthead navimage" >
+        <div className="overlay"></div>
+        <div className="container">
+            <div className="row">
+                <div className="col-xl-9 mx-auto position-relative">
+                    <h1 className="mb-5">HYSU</h1>
+                </div>
+                <div className="col-md-10 col-lg-8 col-xl-7 mx-auto position-relative">
+                    <form>
+                        <div className="row">
+                            <div className="col-12 col-md-9 mb-2 mb-md-0"><input class="form-control form-control-lg" type="email" placeholder="Enter your email..."/></div>
+                            <div className="col-12 col-md-3"><button class="btn btn-primary btn-lg" type="submit">Sign up!</button></div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            )
-          }
+        </div>
+    </header>
+        
          
-          <div className='second_icon'>
-            <Link to='/' className='link'>
-          <GiContract/>
-            </Link>
-            <Link to='/cart'>
-          <AiOutlineShoppingCart/>
-            </Link>
-          </div>
+         
 
          </div>
       </div>
-    </div>
+    
     {
             isAuthenticated && 
             (
@@ -89,16 +82,16 @@ const Nav = () => {
             <Link to='/'className='link'>Home</Link>
           </li>
           <li>
-          <Link to='/live_usage' className='link'>Live Usage <br/> <SiSpeedtest/> </Link>
+          <Link to='/live_usage' className='link'>Utilization</Link>
           </li>
           <li className='list-inline-item'>
-            <Link to='/linked_devices'className='link'>Linked Devices</Link>
+            <Link to='/linked_devices'className='link'>LAN</Link>
           </li>
           <li className='list-inline-item'>
-            <Link to='/net_interfaces'className='link'>Network Interfaces</Link>
+            <Link to='/net_interfaces'className='link'>NetRout</Link>
           </li>
           <li className='list-inline-item'>
-            <Link to='/speed_test'className='link'>Speed Test</Link>
+            <Link to='/speed_test'className='link'>Speed Test <SiSpeedtest/> </Link>
           </li>
           <li className='list-inline-item'>
             <Link to='/net_statistics'className='link'>NetStat</Link>
@@ -114,7 +107,10 @@ const Nav = () => {
             )
           }
           <div className="col-lg-6 text-center text-lg-start my-auto h-100">
-          <ul className='list-inline mb-2'>
+          
+        {
+          !isAuthenticated &&(
+            <ul className='list-inline mb-2'>
           <li className="list-inline-item">
             <Link to='/'className='link'>Home</Link>
           </li>
@@ -128,8 +124,15 @@ const Nav = () => {
             <Link to='/contact'className='link'>Contact</Link>
           </li>
         </ul>
-      
+          )
+            
+
+          
+        }
+      <Link to='/speed_test'className='link'>Speed Test <SiSpeedtest/> </Link>
+      <Link to='/live_usage' className='link'>Utilization</Link>
         </div>
+        
               
     </>
   )

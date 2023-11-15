@@ -66,7 +66,7 @@ function SpeedTest() {
     labels: ['Download', 'Upload'],
     datasets: [
       {
-        label: '# of Votes',
+        label: 'Mbits/s',
         data: piedata,
         backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
         borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
@@ -88,17 +88,25 @@ function SpeedTest() {
           Test
         </button>
         {loading && <div className='loader'> </div>}
-        <h1>Speed Test Data Display:</h1>
+        <div className='row'>
+          <div className='col-md-6'>
+          <h1>Speed Test Data Display:</h1>
         {networkData.length > 0 &&
           networkData.map((entry, index) => (
             <div key={index}>
               <strong>{entry.metric}:</strong> {entry.value}
             </div>
           ))}
-      </div>
-      <div className='piechart'>
+          </div>
+          <div className='col-md-6'>
+          <div className='piechart'>
         <Doughnut data={data} options={options} />
       </div>
+          </div>
+        </div>
+       
+      </div>
+     
       <pre>{outputText}</pre>
     </div>
   );
