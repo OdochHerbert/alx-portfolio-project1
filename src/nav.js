@@ -40,7 +40,7 @@ const Nav = () => {
       
 
     </div>
-    <div className='navheight'>
+    <div className=''>
       <div className=''>
       <header className="text-center text-white masthead navimage" >
         <div className="overlay"></div>
