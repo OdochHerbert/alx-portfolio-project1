@@ -13,7 +13,7 @@ const Nav = () => {
   const { loginWithRedirect, logout, user, isAuthenticated} = useAuth0();
   return(
     <>
-    <div className='navbar navbar-light navbar-expand bg-dark navigation-clean free'>
+    <div className='navbar navbar-light navbar-expand bg-light navigation-clean free'>
 
     <div className="container"><a className="navbar-brand" href="#"> 
     <div className='icon'><DiLinux/></div>
